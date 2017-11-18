@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "301049334521",
+    "firebase_url": "https://weshare-2d034.firebaseio.com",
+    "project_id": "weshare-2d034",
+    "storage_bucket": "weshare-2d034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301049334521:android:e57de73c6550ddcf",
+        "android_client_info": {
+          "package_name": "edu.umd.cs.weshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301049334521-7k52rmm0ec98fghbdjinpdqajitrmcm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkZCkc9KQ8ROjCHltx0Cgd93TMbqGqF6E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
