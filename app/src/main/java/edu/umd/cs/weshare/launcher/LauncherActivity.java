@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.Button;
 
 import edu.umd.cs.weshare.R;
+import edu.umd.cs.weshare.login.LoginActivity;
 import edu.umd.cs.weshare.signup.SignupActivity;
 
 public class LauncherActivity extends AppCompatActivity {
   private Button signupBTN;
+  private Button loginBTN;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,9 @@ public class LauncherActivity extends AppCompatActivity {
 
   private void initVariables() {
     signupBTN = (Button) findViewById(R.id.SignupBTN_Launcher);
+    loginBTN = (Button) findViewById(R.id.LoginBTN_Launcher);
     signupBTN.setOnClickListener(btnListener);
+    loginBTN.setOnClickListener(btnListener);
   }
 
   private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -34,6 +38,9 @@ public class LauncherActivity extends AppCompatActivity {
         //The second parameter is always DestinationActivity.class
         Intent intent = new Intent(LauncherActivity.this, SignupActivity.class);
         //Starts the transition to a new activity
+        startActivity(intent);
+      } else if (view.getId() == R.id.LoginBTN_Launcher) {
+        Intent intent = new Intent(LauncherActivity.this, LoginActivity.class);
         startActivity(intent);
       }
     }

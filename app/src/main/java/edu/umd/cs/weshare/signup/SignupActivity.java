@@ -61,7 +61,7 @@ public class SignupActivity extends AppCompatActivity {
         if(!isBlank(email) && !isBlank(password)) {//Verification that the email and password
           signup(email, password);
         } else {
-          popup("Email and password can't be blank.");
+          alert("Email and password can't be blank.");
         }
       }
     }
@@ -81,15 +81,15 @@ public class SignupActivity extends AppCompatActivity {
       @Override
       public void onComplete(@NonNull Task<AuthResult> task) {
         if(task.isSuccessful()) {
-          popup("Success in adding user.");
+          alert("Success in adding user.");
         } else {
-          popup(task.getException().getMessage());
+          alert(task.getException().getMessage());
         }
       }
     });
   }
 
-  public void popup(String message){
+  private void alert(String message){
     Snackbar s = Snackbar.make(findViewById(R.id.Layout_Signup), message, Snackbar.LENGTH_LONG);
     s.show();
   }
