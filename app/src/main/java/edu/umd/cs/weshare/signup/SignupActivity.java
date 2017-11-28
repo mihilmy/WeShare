@@ -13,6 +13,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import edu.umd.cs.weshare.R;
 
@@ -22,7 +25,7 @@ public class SignupActivity extends AppCompatActivity {
   private EditText passwordET;
   private Button signupBTN;
   private FirebaseAuth firebaseAuth;
-
+  private DatabaseReference databaseRef;
   /**
    * This method is called by default in every Activity class you create and its the start point of
    * the activity.
@@ -45,6 +48,7 @@ public class SignupActivity extends AppCompatActivity {
     passwordET = (EditText) findViewById(R.id.PasswordET_Signup);
     signupBTN = (Button) findViewById(R.id.SignupBTN_Signup);
     firebaseAuth = FirebaseAuth.getInstance();
+    databaseRef = FirebaseDatabase.getInstance().getReference("users");
     signupBTN.setOnClickListener(btnListener);
   }
 
@@ -76,12 +80,13 @@ public class SignupActivity extends AppCompatActivity {
    * @param email email of the user attained from the layout file.
    * @param password password of the user attained from the layout file.
    */
-  private void signup(String email, String password) {
+  private void signup(final String email, String password) {
     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
       @Override
       public void onComplete(@NonNull Task<AuthResult> task) {
         if(task.isSuccessful()) {
           alert("Success in adding user.");
+          databaseRef.child(firebaseAuth.getCurrentUser().getUid()).child("email").setValue(email);
         } else {
           alert(task.getException().getMessage());
         }
