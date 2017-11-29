@@ -5,7 +5,10 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import edu.umd.cs.weshare.models.Category;
+import edu.umd.cs.weshare.models.GroceryItem;
 import edu.umd.cs.weshare.models.User;
 
 /**
@@ -13,9 +16,9 @@ import edu.umd.cs.weshare.models.User;
  */
 
 public class Database {
+  private static ArrayList<GroceryItem> allItems = null;
   private static ArrayList<User> allUsers = null;
   private static User currentUser = null;
-
 
   public static ArrayList<User> getAllUsers() {
     if(allUsers == null)
@@ -23,17 +26,20 @@ public class Database {
 
     return  allUsers;
   }
+  public static ArrayList<GroceryItem> getAllItems() {
+    if(allItems == null)
+      populateItems();
 
+    return allItems;
+  }
   public static User getCurrentUser() {
-    if(currentUser == null) {
-      Log.d(Database.class.getSimpleName(), "null");
-      currentUser = new User("Name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-    }
+    if(currentUser == null)
+      populateCurrentUser();
 
     return currentUser;
   }
 
-
+  /*Helpers*/
   private static void populateUsers() {
     allUsers = new ArrayList<>();
     allUsers.add(new User("Adam Perex", "adamperez@example.com"));
@@ -48,6 +54,45 @@ public class Database {
     allUsers.add(new User("Dylan Newman", "dylan-newman@example.com"));
     allUsers.add(new User("Billy Johnson", "billy_83@example.com"));
     allUsers.add(new User("Sean Payne", "sean.payne@example.com"));
+  }
+  private static void populateItems() {
+    allItems = new ArrayList<>();
+    allItems.add(new GroceryItem("Apples", Category.FRUITS));
+    allItems.add(new GroceryItem("Bananas", Category.FRUITS));
+    allItems.add(new GroceryItem("Grapes", Category.FRUITS));
+    allItems.add(new GroceryItem("Peaches", Category.FRUITS));
+    allItems.add(new GroceryItem("Berries", Category.FRUITS));
+    allItems.add(new GroceryItem("Water Melon", Category.FRUITS));
+    allItems.add(new GroceryItem("Oranges", Category.FRUITS));
+    allItems.add(new GroceryItem("Rice", Category.GRAINS));
+    allItems.add(new GroceryItem("Pasta", Category.GRAINS));
+    allItems.add(new GroceryItem("Noodles", Category.GRAINS));
+    allItems.add(new GroceryItem("Bagels", Category.BREADS));
+    allItems.add(new GroceryItem("Tortillas", Category.BREADS));
+    allItems.add(new GroceryItem("Rolls", Category.BREADS));
+    allItems.add(new GroceryItem("Toast", Category.BREADS));
+    allItems.add(new GroceryItem("Cheerios", Category.CEREALS));
+    allItems.add(new GroceryItem("Frosties", Category.BREADS));
+    allItems.add(new GroceryItem("Capn Crunch", Category.BREADS));
+    allItems.add(new GroceryItem("Cinnamon Toast Crunch", Category.BREADS));
+    allItems.add(new GroceryItem("Milk", Category.DAIRY));
+    allItems.add(new GroceryItem("Cheese", Category.DAIRY));
+    allItems.add(new GroceryItem("Eggs", Category.DAIRY));
+    allItems.add(new GroceryItem("Beef", Category.POULTRY));
+    allItems.add(new GroceryItem("Ground Beef", Category.POULTRY));
+    allItems.add(new GroceryItem("Pork", Category.POULTRY));
+    allItems.add(new GroceryItem("Lamb", Category.POULTRY));
+    allItems.add(new GroceryItem("Chicken", Category.POULTRY));
+    allItems.add(new GroceryItem("Turkey", Category.POULTRY));
+    allItems.add(new GroceryItem("Fish", Category.POULTRY));
+  }
+  private static void populateCurrentUser() {
+    currentUser = new User("Name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+    populateItems();
+    for(int i = 0; i < 8; i++) {
+      int j = (int) (Math.random() * allItems.size());
+      currentUser.getShoppingList().addItem(allItems.get(j));
+    }
   }
 
 }
