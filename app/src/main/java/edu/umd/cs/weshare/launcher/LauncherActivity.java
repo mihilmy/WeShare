@@ -13,18 +13,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.group.GroupActivity;
+import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.login.LoginActivity;
 import edu.umd.cs.weshare.signup.SignupActivity;
 
 public class LauncherActivity extends AppCompatActivity {
   private Button signupBTN;
   private Button loginBTN;
+  private Button groupBTN;
+  private Button shoppingBTN;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_launcher);
-    skipOnAuthenticated();
+    //skipOnAuthenticated();
     initVariables();
   }
 
@@ -37,8 +40,12 @@ public class LauncherActivity extends AppCompatActivity {
   private void initVariables() {
     signupBTN = (Button) findViewById(R.id.SignupBTN_Launcher);
     loginBTN = (Button) findViewById(R.id.LoginBTN_Launcher);
+    groupBTN = (Button) findViewById(R.id.GroupBTN_Launcher);
+    shoppingBTN = (Button) findViewById(R.id.ShoppingBTN_Launcher);
     signupBTN.setOnClickListener(btnListener);
     loginBTN.setOnClickListener(btnListener);
+    groupBTN.setOnClickListener(btnListener);
+    shoppingBTN.setOnClickListener(btnListener);
   }
 
   private View.OnClickListener btnListener = new View.OnClickListener() {
@@ -53,6 +60,12 @@ public class LauncherActivity extends AppCompatActivity {
         startActivity(intent);
       } else if (view.getId() == R.id.LoginBTN_Launcher) {
         Intent intent = new Intent(LauncherActivity.this, LoginActivity.class);
+        startActivity(intent);
+      } else if (view.getId() == R.id.GroupBTN_Launcher) {
+        Intent intent = new Intent(LauncherActivity.this, GroupActivity.class);
+        startActivity(intent);
+      } else if (view.getId() == R.id.ShoppingBTN_Launcher) {
+        Intent intent = new Intent(LauncherActivity.this, ShoppingActivity.class);
         startActivity(intent);
       }
     }
