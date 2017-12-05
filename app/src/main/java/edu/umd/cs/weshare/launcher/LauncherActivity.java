@@ -20,54 +20,43 @@ import edu.umd.cs.weshare.signup.SignupActivity;
 public class LauncherActivity extends AppCompatActivity {
   private Button signupBTN;
   private Button loginBTN;
-  private Button groupBTN;
-  private Button shoppingBTN;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_launcher);
-    //skipOnAuthenticated();
+    skipOnAuthenticated();
     initVariables();
   }
 
   private void skipOnAuthenticated() {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if(user != null) {
-      startActivity(new Intent(this, GroupActivity.class));
+      startActivity(new Intent(this, ShoppingActivity.class));
     }
   }
   private void initVariables() {
     signupBTN = (Button) findViewById(R.id.SignupBTN_Launcher);
     loginBTN = (Button) findViewById(R.id.LoginBTN_Launcher);
-    groupBTN = (Button) findViewById(R.id.GroupBTN_Launcher);
-    shoppingBTN = (Button) findViewById(R.id.ShoppingBTN_Launcher);
     signupBTN.setOnClickListener(btnListener);
     loginBTN.setOnClickListener(btnListener);
-    groupBTN.setOnClickListener(btnListener);
-    shoppingBTN.setOnClickListener(btnListener);
   }
 
   private View.OnClickListener btnListener = new View.OnClickListener() {
     @Override
     public void onClick(View view) {
       if(view.getId() == R.id.SignupBTN_Launcher) {
-        //Intent is the object that initiates the movement from one activity to another
-        //The first paramater is always CurrentActivity.this
-        //The second parameter is always DestinationActivity.class
-        Intent intent = new Intent(LauncherActivity.this, SignupActivity.class);
-        //Starts the transition to a new activity
-        startActivity(intent);
+        startActivityForResult(new Intent(LauncherActivity.this, SignupActivity.class), 0);
       } else if (view.getId() == R.id.LoginBTN_Launcher) {
-        Intent intent = new Intent(LauncherActivity.this, LoginActivity.class);
-        startActivity(intent);
-      } else if (view.getId() == R.id.GroupBTN_Launcher) {
-        Intent intent = new Intent(LauncherActivity.this, GroupActivity.class);
-        startActivity(intent);
-      } else if (view.getId() == R.id.ShoppingBTN_Launcher) {
-        Intent intent = new Intent(LauncherActivity.this, ShoppingActivity.class);
-        startActivity(intent);
+        startActivityForResult( new Intent(LauncherActivity.this, LoginActivity.class), 0);
       }
     }
   };
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if(resultCode == 1) {
+      finish();
+    }
+  }
 }

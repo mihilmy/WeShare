@@ -1,5 +1,10 @@
 package edu.umd.cs.weshare.group;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,15 +16,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.regex.Pattern;
 
 import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;
+import edu.umd.cs.weshare.launcher.LauncherActivity;
+import edu.umd.cs.weshare.list.pantry.PantryActivity;
+import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.models.User;
 
-public class AddMemberActivity extends AppCompatActivity {
+public class AddMemberActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
   private ListView membersLV;
   private UsersAdapter adapter;
+  private DrawerLayout drawer;
+  private ActionBarDrawerToggle drawerToggle;
+  private NavigationView addMemberNV;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +54,16 @@ public class AddMemberActivity extends AppCompatActivity {
         Log.d("AddMemberActivity", Database.getCurrentUser().getGroup().toString());
       }
     });
+
+    // Drawer
+    drawer = findViewById(R.id.Layout_AddMember);
+    drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
+    drawer.addDrawerListener(drawerToggle);
+    drawerToggle.syncState();
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    // Drawer Navigation
+    addMemberNV = findViewById(R.id.AddMemberNV);
+    addMemberNV.setNavigationItemSelectedListener(this);
   }
 
   @Override
@@ -63,6 +86,31 @@ public class AddMemberActivity extends AppCompatActivity {
         return false;
       }
     });
+
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if(drawerToggle.onOptionsItemSelected(item))
+      return true;
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    if(item.getItemId() == R.id.ShoppingBTN_Drawer) {
+      startActivity(new Intent(getBaseContext(), ShoppingActivity.class));
+    } else if(item.getItemId() == R.id.PantryBTN_Drawer) {
+      startActivity(new Intent(getBaseContext(), PantryActivity.class));
+    } else if(item.getItemId() == R.id.GroupBTN_Drawer) {
+      startActivity(new Intent(getBaseContext(), GroupActivity.class));
+    } else if(item.getItemId() == R.id.LogoutBTN_Drawer) {
+      FirebaseAuth.getInstance().signOut();
+      startActivity(new Intent(getBaseContext(), LauncherActivity.class));
+    }
+
+    drawer.closeDrawers();
 
     return true;
   }

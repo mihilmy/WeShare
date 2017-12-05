@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ShoppingBTN_Drawer"
+        android:title="Shopping List"
+        android:icon="@drawable/ic_shopping_cart_black_24dp">
+
+    </item>
+    <item
+        android:id="@+id/PantryBTN_Drawer"
+        android:title="Pantry List"
+        android:icon="@drawable/ic_fridge_black_24dp">
+    </item>
+    <item
+        android:id="@+id/GroupBTN_Drawer"
+        android:title="Group"
+        android:icon="@drawable/ic_group_black_24dp">
+    </item>
+    <item
+        android:id="@+id/LogoutBTN_Drawer"
+        android:title="Logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp">
+    </item>
+</menu>
