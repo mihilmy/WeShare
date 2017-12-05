@@ -15,8 +15,12 @@ public class Group {
   private HashSet<User> usersHash = new HashSet<>();
   private ArrayList<User> usersArray = new ArrayList<>();
 
-  public void addMember(User u) {
-    if(usersHash.add(u))
+  public boolean addMember(User u) {
+    if(usersHash.add(u)) {
       usersArray.add(u);
+      return true;
+    }
+
+    return false;
   }
 }

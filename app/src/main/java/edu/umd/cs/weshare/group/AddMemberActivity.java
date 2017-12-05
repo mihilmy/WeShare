@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -50,8 +51,13 @@ public class AddMemberActivity extends AppCompatActivity implements NavigationVi
 
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Database.getCurrentUser().getGroup().addMember((User) adapterView.getItemAtPosition(i));
-        Log.d("AddMemberActivity", Database.getCurrentUser().getGroup().toString());
+        boolean result = Database.getCurrentUser().getGroup().addMember((User) adapterView.getItemAtPosition(i));
+        if(result) {
+          Toast.makeText(getApplicationContext(),"Success! Member added.", Toast.LENGTH_LONG).show();
+        } else {
+          Toast.makeText(getApplicationContext(),"Member already exists!", Toast.LENGTH_LONG).show();
+        }
+
       }
     });
 

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,6 +33,7 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
   private ActionBarDrawerToggle drawerToggle;
   private NavigationView shoppingNV;
   private GroceryItemsAdapter adapter;
+  private SwipeLayout swipeLayout;
   private int currentID = R.id.ShoppingBTN_Drawer;
 
   @Override
