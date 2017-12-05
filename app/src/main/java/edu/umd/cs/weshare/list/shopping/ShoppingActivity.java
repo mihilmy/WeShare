@@ -1,6 +1,5 @@
 package edu.umd.cs.weshare.list.shopping;
 
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;;
 import edu.umd.cs.weshare.group.GroupActivity;
+import edu.umd.cs.weshare.launcher.LauncherActivity;
 import edu.umd.cs.weshare.list.GroceryItemsAdapter;
 import edu.umd.cs.weshare.list.pantry.PantryActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
@@ -60,6 +61,7 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
     shoppingNV = findViewById(R.id.ShoppingNV);
     shoppingNV.setNavigationItemSelectedListener(this);
     shoppingNV.getMenu().getItem(0).setChecked(true);
+    setHeader(shoppingNV);
   }
 
   @Override
@@ -78,12 +80,18 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
     } else if(item.getItemId() == R.id.GroupBTN_Drawer && currentID != R.id.GroupBTN_Drawer) {
       startActivity(new Intent(getBaseContext(), GroupActivity.class));
     } else if(item.getItemId() == R.id.LogoutBTN_Drawer && currentID != R.id.LogoutBTN_Drawer) {
-      FirebaseAuth.getInstance().signOut();
+      Database.clearCurrentUser();
       startActivity(new Intent(getBaseContext(), LauncherActivity.class));
     }
 
     drawer.closeDrawers();
 
     return true;
+  }
+  private void setHeader(NavigationView nv) {
+    TextView tvName = nv.getHeaderView(0).findViewById(R.id.nameTV_Header);
+    TextView tvEmail = nv.getHeaderView(0).findViewById(R.id.emailTV_Header);
+    tvName.setText(Database.getCurrentUser().getName());
+    tvEmail.setText(Database.getCurrentUser().getEmail());
   }
 }

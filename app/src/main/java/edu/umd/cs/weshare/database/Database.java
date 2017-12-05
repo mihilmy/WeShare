@@ -38,6 +38,10 @@ public class Database {
 
     return currentUser;
   }
+  public static void clearCurrentUser() {
+    FirebaseAuth.getInstance().signOut();
+    currentUser = null;
+  }
 
   /*Helpers*/
   private static void populateUsers() {
@@ -87,7 +91,7 @@ public class Database {
     allItems.add(new GroceryItem("Fish", Category.POULTRY));
   }
   private static void populateCurrentUser() {
-    currentUser = new User("Name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+    currentUser = new User("John Doe", FirebaseAuth.getInstance().getCurrentUser().getEmail());
     populateItems();
     for(int i = 0; i < 15; i++) {
       int j = (int) (Math.random() * allItems.size());

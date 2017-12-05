@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -52,6 +53,7 @@ public class GroupActivity extends AppCompatActivity implements NavigationView.O
     groupNV = findViewById(R.id.GroupNV);
     groupNV.setNavigationItemSelectedListener(this);
     groupNV.getMenu().getItem(2).setChecked(true);
+    setHeader(groupNV);
   }
 
   @Override
@@ -89,12 +91,19 @@ public class GroupActivity extends AppCompatActivity implements NavigationView.O
     } else if(item.getItemId() == R.id.GroupBTN_Drawer && currentID != R.id.GroupBTN_Drawer) {
       startActivity(new Intent(getBaseContext(), GroupActivity.class));
     } else if(item.getItemId() == R.id.LogoutBTN_Drawer && currentID != R.id.LogoutBTN_Drawer) {
-      FirebaseAuth.getInstance().signOut();
+      Database.clearCurrentUser();
       startActivity(new Intent(getBaseContext(), LauncherActivity.class));
     }
 
     drawer.closeDrawers();
 
     return true;
+  }
+
+  private void setHeader(NavigationView nv) {
+    TextView tvName = nv.getHeaderView(0).findViewById(R.id.nameTV_Header);
+    TextView tvEmail = nv.getHeaderView(0).findViewById(R.id.emailTV_Header);
+    tvName.setText(Database.getCurrentUser().getName());
+    tvEmail.setText(Database.getCurrentUser().getEmail());
   }
 }
