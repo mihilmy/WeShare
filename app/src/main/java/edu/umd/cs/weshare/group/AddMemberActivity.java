@@ -52,13 +52,10 @@ public class AddMemberActivity extends AppCompatActivity implements NavigationVi
 
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        boolean result = Database.getCurrentUser().getGroup().addMember((User) adapterView.getItemAtPosition(i));
-        if(result) {
-          Toast.makeText(getApplicationContext(),"Success! Member added.", Toast.LENGTH_LONG).show();
-        } else {
-          Toast.makeText(getApplicationContext(),"Member already exists!", Toast.LENGTH_LONG).show();
-        }
-
+        User user = (User) adapterView.getItemAtPosition(i);
+        boolean result = Database.getCurrentUser().getGroup().addMember(user);
+        adapter.remove(user);
+        Toast.makeText(getApplicationContext(),"Success! Member added.", Toast.LENGTH_LONG).show();
       }
     });
 

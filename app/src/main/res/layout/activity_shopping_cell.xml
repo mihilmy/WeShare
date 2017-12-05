@@ -76,6 +76,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/categoryLine_ShoppingCell"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#F00"/>
+
         <TextView
             android:id="@+id/nameTV_ShoppingCell"
             android:layout_width="wrap_content"
