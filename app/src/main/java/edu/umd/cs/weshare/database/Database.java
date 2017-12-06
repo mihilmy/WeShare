@@ -76,9 +76,9 @@ public class Database {
     allItems.add(new GroceryItem("Rolls", Category.BREADS));
     allItems.add(new GroceryItem("Toast", Category.BREADS));
     allItems.add(new GroceryItem("Cheerios", Category.CEREALS));
-    allItems.add(new GroceryItem("Frosties", Category.BREADS));
-    allItems.add(new GroceryItem("Capn Crunch", Category.BREADS));
-    allItems.add(new GroceryItem("Cinnamon Toast Crunch", Category.BREADS));
+    allItems.add(new GroceryItem("Frosties", Category.CEREALS));
+    allItems.add(new GroceryItem("Capn Crunch", Category.CEREALS));
+    allItems.add(new GroceryItem("Cinnamon Toast Crunch", Category.CEREALS));
     allItems.add(new GroceryItem("Milk", Category.DAIRY));
     allItems.add(new GroceryItem("Cheese", Category.DAIRY));
     allItems.add(new GroceryItem("Eggs", Category.DAIRY));
