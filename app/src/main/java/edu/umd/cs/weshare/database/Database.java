@@ -93,7 +93,7 @@ public class Database {
   private static void populateCurrentUser() {
     currentUser = new User("John Doe", FirebaseAuth.getInstance().getCurrentUser().getEmail());
     populateItems();
-    for(int i = 0; i < 15; i++) {
+    for(int i = 0; i < 3; i++) {
       int j = (int) (Math.random() * allItems.size());
       currentUser.getShoppingList().addItem(allItems.get(j));
     }

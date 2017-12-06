@@ -3,6 +3,7 @@ package edu.umd.cs.weshare.list.shopping;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,7 +36,7 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
   private ActionBarDrawerToggle drawerToggle;
   private NavigationView shoppingNV;
   private GroceryItemsAdapter adapter;
-  private SwipeLayout swipeLayout;
+  private FloatingActionButton addItemFAB;
   private int currentID = R.id.ShoppingBTN_Drawer;
 
   @Override
@@ -62,6 +64,16 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
     shoppingNV.setNavigationItemSelectedListener(this);
     shoppingNV.getMenu().getItem(0).setChecked(true);
     setHeader(shoppingNV);
+    // Add Item
+    addItemFAB = findViewById(R.id.action_add_shopping_item);
+    addItemFAB.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        if(view.getId() == R.id.action_add_shopping_item) {
+          startActivity(new Intent(ShoppingActivity.this, AddGroceryItemActivity.class));
+        }
+      }
+    });
   }
 
   @Override
@@ -69,6 +81,12 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
     if(drawerToggle.onOptionsItemSelected(item))
       return true;
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  protected void onRestart() {
+    super.onRestart();
+    adapter.notifyDataSetChanged();
   }
 
   @Override
@@ -88,6 +106,7 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
 
     return true;
   }
+
   private void setHeader(NavigationView nv) {
     TextView tvName = nv.getHeaderView(0).findViewById(R.id.nameTV_Header);
     TextView tvEmail = nv.getHeaderView(0).findViewById(R.id.emailTV_Header);

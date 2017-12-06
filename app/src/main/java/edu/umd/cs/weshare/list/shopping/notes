@@ -1,5 +1,0 @@
-This contains all the files associated with the shopping list page
-Create shopping list models (i.e. a class that represents a group)
-Create activities here (i.e. actions that allow us to interact with a page)
-
-If you need extra models that are not necessarily list related create separate packages.

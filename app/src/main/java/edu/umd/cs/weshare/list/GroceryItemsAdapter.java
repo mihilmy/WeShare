@@ -11,19 +11,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import edu.umd.cs.weshare.R;
+import edu.umd.cs.weshare.database.Database;
 import edu.umd.cs.weshare.models.GroceryItem;
 
 /**
  * Created by omar on 11/29/17.
  */
 
-public class GroceryItemsAdapter extends ArraySwipeAdapter {
+public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
 
   public GroceryItemsAdapter(Context context, ArrayList<GroceryItem> objects) {
     super(context, 0, objects);
@@ -33,7 +38,7 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter {
   @Override
   public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
     // Get the data item for this position
-    GroceryItem item = (GroceryItem) getItem(position);
+    final GroceryItem item = (GroceryItem) getItem(position);
 
     // Check if an existing view is being reused, otherwise inflate the view
     if (convertView == null) {
@@ -46,8 +51,16 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter {
     LinearLayout edit = convertView.findViewById(R.id.editBTN_ShoppingCell);
     LinearLayout move = convertView.findViewById(R.id.moveBTN_ShoppingCell);
 
-    edit.setOnClickListener(btnListener);
-    move.setOnClickListener(btnListener);
+    move.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Database.getCurrentUser().getPantryList().addItem(item);
+        Toast.makeText(getContext(), String.format("Moved %s to pantry.", item.getName()), Toast.LENGTH_LONG).show();
+        remove(item);
+        notifyDataSetChanged();
+      }
+    });
+
     // Populate the data into the template view using the data object
     tvName.setText(item.getName());
     tvQuantity.setText(String.format("(%d)",item.getQuantity()).toString());
@@ -56,13 +69,6 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter {
     return convertView;
   }
 
-
-  private View.OnClickListener btnListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-
-    }
-  };
 
   @Override
   public int getSwipeLayoutResourceId(int position) {
