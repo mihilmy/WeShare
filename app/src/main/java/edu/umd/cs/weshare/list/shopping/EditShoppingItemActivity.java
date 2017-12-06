@@ -40,8 +40,7 @@ public class EditShoppingItemActivity extends AppCompatActivity implements Navig
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_item);
     setTitle("Edit Item");
-    itemIndex = getIntent().getIntExtra("itemIndex", -1);
-    Log.d("DEBUG", String.format("%d", itemIndex).toString());
+    itemIndex = getIntent().getIntExtra("itemIndex", 0);
     initVariables();
     addItemData();
   }

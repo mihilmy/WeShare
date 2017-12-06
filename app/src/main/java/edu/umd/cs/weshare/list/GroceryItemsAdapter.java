@@ -61,7 +61,7 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
       @Override
       public void onClick(View view) {
         Database.getCurrentUser().getPantryList().addItem(item);
-        Toast.makeText(getContext(), String.format("Moved %s to pantry.", item.getName()), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), String.format("%s moved to pantry.", item.getName()), Toast.LENGTH_LONG).show();
         remove(item);
         notifyDataSetChanged();
       }
