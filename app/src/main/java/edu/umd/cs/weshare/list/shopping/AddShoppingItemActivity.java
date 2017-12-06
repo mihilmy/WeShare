@@ -73,6 +73,8 @@ public class AddShoppingItemActivity extends AppCompatActivity implements Naviga
 
     MenuItem item = menu.findItem(R.id.action_search);
     SearchView searchView = (SearchView) item.getActionView();
+    searchView.setIconifiedByDefault(false);
+    searchView.setQueryHint("Search Food");
 
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
