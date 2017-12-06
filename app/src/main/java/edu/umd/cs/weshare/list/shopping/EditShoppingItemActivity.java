@@ -1,19 +1,17 @@
 package edu.umd.cs.weshare.list.shopping;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SearchView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,74 +19,83 @@ import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;
 import edu.umd.cs.weshare.group.GroupActivity;
 import edu.umd.cs.weshare.launcher.LauncherActivity;
-import edu.umd.cs.weshare.list.AddGroceryItemsAdapter;
 import edu.umd.cs.weshare.list.pantry.PantryActivity;
+import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
 
-public class AddGroceryItemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-  private ListView foodsLV;
-  private AddGroceryItemsAdapter adapter;
+public class EditShoppingItemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+  private EditText nameET;
+  private EditText quantityET;
+  private Button saveBTN;
+  private Button deleteBTN;
+  private GroceryItem item;
+  private int itemIndex;
+
   private DrawerLayout drawer;
   private ActionBarDrawerToggle drawerToggle;
-  private NavigationView addMemberNV;
+  private NavigationView editItemNV;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_add_item);
-    setTitle("Add Groceries");
+    setContentView(R.layout.activity_edit_item);
+    setTitle("Edit Item");
+    itemIndex = getIntent().getIntExtra("itemIndex", -1);
+    Log.d("DEBUG", String.format("%d", itemIndex).toString());
     initVariables();
+    addItemData();
   }
 
   private void initVariables() {
-    adapter = new AddGroceryItemsAdapter(this, Database.getAllItems(), R.layout.activity_add_item_cell, R.id.foodTV_AddCell);
-    foodsLV = (ListView) findViewById(R.id.foodLV_AddFood);
-    foodsLV.setAdapter(adapter);
-    foodsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-      @Override
-      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        // Add food to their shopping list
-        Database.getCurrentUser().getShoppingList().addItem((GroceryItem) adapterView.getItemAtPosition(i));
-        Toast.makeText(getBaseContext(), "Success! Item Added.", Toast.LENGTH_SHORT).show();
-      }
-    });
+    nameET = findViewById(R.id.editName);
+    quantityET = findViewById(R.id.editQuantity);
+    saveBTN = findViewById(R.id.editSaveButton);
+    deleteBTN = findViewById(R.id.editDeleteButton);
+    item = Database.getCurrentUser().getShoppingList().getItemsArray().get(itemIndex);
+    saveBTN.setOnClickListener(btnListener);
+    deleteBTN.setOnClickListener(btnListener);
 
     // Drawer
-    drawer = findViewById(R.id.Layout_AddItem);
+    drawer = findViewById(R.id.Layout_EditItem);
     drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
     drawer.addDrawerListener(drawerToggle);
     drawerToggle.syncState();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     // Drawer Navigation
-    addMemberNV = findViewById(R.id.AddItemNV);
-    addMemberNV.setNavigationItemSelectedListener(this);
-    setHeader(addMemberNV);
+    editItemNV = findViewById(R.id.EditItemNV);
+    editItemNV.setNavigationItemSelectedListener(this);
+    setHeader(editItemNV);
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_search, menu);
-
-    MenuItem item = menu.findItem(R.id.action_search);
-    SearchView searchView = (SearchView) item.getActionView();
-
-    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-      @Override
-      public boolean onQueryTextSubmit(String s) {
-        return false;
-      }
-
-      @Override
-      public boolean onQueryTextChange(String s) {
-        adapter.getFilter().filter(s);
-        return false;
-      }
-    });
-
-    return true;
+  private void addItemData() {
+    nameET.setText(item.getName());
+    quantityET.setText(String.format("%d",item.getQuantity()));
   }
+
+  private void save() {
+    String name = nameET.getText().toString();
+    int quantity = Integer.parseInt(quantityET.getText().toString());
+    item.setName(name);
+    item.setQuantity(quantity);
+  }
+
+  private void delete() {
+    Database.getCurrentUser().getShoppingList().getItemsArray().remove(itemIndex);
+    Toast.makeText(getBaseContext(), "Success! Item deleted.", Toast.LENGTH_SHORT).show();
+  }
+
+  private View.OnClickListener btnListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+      if(view.getId() == R.id.editDeleteButton) {
+        delete();
+        startActivity(new Intent(getBaseContext(), ShoppingActivity.class));
+      } else if (view.getId() == R.id.editSaveButton) {
+        save();
+        startActivity(new Intent(getBaseContext(), ShoppingActivity.class));
+      }
+    }
+  };
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {

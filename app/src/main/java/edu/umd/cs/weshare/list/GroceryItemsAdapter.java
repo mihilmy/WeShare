@@ -1,27 +1,24 @@
 package edu.umd.cs.weshare.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;
+import edu.umd.cs.weshare.list.shopping.EditShoppingItemActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
 
 /**
@@ -39,7 +36,7 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
   public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
     // Get the data item for this position
     final GroceryItem item = (GroceryItem) getItem(position);
-
+    final int itemIndex = position;
     // Check if an existing view is being reused, otherwise inflate the view
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_shopping_cell, parent, false);
@@ -50,6 +47,15 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
     View line = convertView.findViewById(R.id.categoryLine_ShoppingCell);
     LinearLayout edit = convertView.findViewById(R.id.editBTN_ShoppingCell);
     LinearLayout move = convertView.findViewById(R.id.moveBTN_ShoppingCell);
+
+    edit.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Intent i = new Intent(getContext(), EditShoppingItemActivity.class);
+        i.putExtra("itemIndex", itemIndex);
+        getContext().startActivity(i);
+      }
+    });
 
     move.setOnClickListener(new View.OnClickListener() {
       @Override

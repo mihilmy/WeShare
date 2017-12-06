@@ -3,11 +3,13 @@ package edu.umd.cs.weshare.models;
 import java.util.Locale;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by omar on 11/29/17.
  */
 @Getter
+@Setter
 public class GroceryItem {
   private String name;
   private Category catergory;
