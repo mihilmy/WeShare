@@ -66,7 +66,7 @@ public class Database {
     allItems.add(new GroceryItem("Grapes", Category.FRUITS));
     allItems.add(new GroceryItem("Peaches", Category.FRUITS));
     allItems.add(new GroceryItem("Berries", Category.FRUITS));
-    allItems.add(new GroceryItem("Water Melon", Category.FRUITS));
+    allItems.add(new GroceryItem("Watermelon", Category.FRUITS));
     allItems.add(new GroceryItem("Oranges", Category.FRUITS));
     allItems.add(new GroceryItem("Rice", Category.GRAINS));
     allItems.add(new GroceryItem("Pasta", Category.GRAINS));
@@ -84,7 +84,7 @@ public class Database {
     allItems.add(new GroceryItem("Eggs", Category.DAIRY));
     allItems.add(new GroceryItem("Beef", Category.POULTRY));
     allItems.add(new GroceryItem("Ground Beef", Category.POULTRY));
-    allItems.add(new GroceryItem("Pork", Category.POULTRY));
+    allItems.add(new GroceryItem("Pork Chops", Category.POULTRY));
     allItems.add(new GroceryItem("Lamb", Category.POULTRY));
     allItems.add(new GroceryItem("Chicken", Category.POULTRY));
     allItems.add(new GroceryItem("Turkey", Category.POULTRY));
