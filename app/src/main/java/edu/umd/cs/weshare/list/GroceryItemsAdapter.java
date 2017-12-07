@@ -44,14 +44,31 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
     final int itemIndex = position;
     // Check if an existing view is being reused, otherwise inflate the view
     if (convertView == null) {
-      convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_shopping_cell, parent, false);
+      int resID = listType == ListType.SHOPPING? R.layout.activity_shopping_cell: R.layout.activity_pantry_cell;
+      convertView = LayoutInflater.from(getContext()).inflate(resID, parent, false);
     }
+
+    int nameID = R.id.nameTV_ShoppingCell;
+    int quantityID = R.id.quantityTV_ShoopingCell;
+    int categoryID = R.id.categoryLine_ShoppingCell;
+    int editID = R.id.editBTN_ShoppingCell;
+    int moveID = R.id.moveBTN_ShoppingCell;
+
+    if(listType == ListType.PANTRY) {
+      nameID = R.id.nameTV_PantryCell;
+      quantityID = R.id.quantityTV_PantryCell;
+      categoryID = R.id.categoryLine_PantryCell;
+      editID = R.id.editBTN_PantryCell;
+      moveID = R.id.moveBTN_PantryCell;
+    }
+
+
     // Lookup view for data population
-    TextView tvName = convertView.findViewById(R.id.nameTV_ShoppingCell);
-    TextView tvQuantity = convertView.findViewById(R.id.quantityTV_ShoopingCell);
-    View line = convertView.findViewById(R.id.categoryLine_ShoppingCell);
-    LinearLayout edit = convertView.findViewById(R.id.editBTN_ShoppingCell);
-    LinearLayout move = convertView.findViewById(R.id.moveBTN_ShoppingCell);
+    TextView tvName = convertView.findViewById(nameID);
+    TextView tvQuantity = convertView.findViewById(quantityID);
+    View line = convertView.findViewById(categoryID);
+    LinearLayout edit = convertView.findViewById(editID);
+    LinearLayout move = convertView.findViewById(moveID);
 
     edit.setOnClickListener(new View.OnClickListener() {
       @Override
