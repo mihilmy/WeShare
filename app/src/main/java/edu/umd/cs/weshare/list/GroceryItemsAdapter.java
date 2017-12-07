@@ -20,15 +20,20 @@ import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;
 import edu.umd.cs.weshare.list.shopping.EditShoppingItemActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
+import edu.umd.cs.weshare.models.ListType;
 
 /**
  * Created by omar on 11/29/17.
  */
 
 public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
+  private Class editActivityClass;
+  private ListType listType;
 
-  public GroceryItemsAdapter(Context context, ArrayList<GroceryItem> objects) {
+  public GroceryItemsAdapter(Context context, ArrayList<GroceryItem> objects, Class activityClass,ListType type) {
     super(context, 0, objects);
+    this.editActivityClass = activityClass;
+    this.listType = type;
   }
 
   @NonNull
@@ -51,7 +56,7 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
     edit.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent i = new Intent(getContext(), EditShoppingItemActivity.class);
+        Intent i = new Intent(getContext(), editActivityClass);
         i.putExtra("itemIndex", itemIndex);
         getContext().startActivity(i);
       }
@@ -60,8 +65,13 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
     move.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Database.getCurrentUser().getPantryList().addItem(item);
-        Toast.makeText(getContext(), String.format("%s moved to pantry.", item.getName()), Toast.LENGTH_LONG).show();
+        if(listType == ListType.SHOPPING) {
+          Database.getCurrentUser().getPantryList().addItem(item);
+          Toast.makeText(getContext(), String.format("%s moved to pantry.", item.getName()), Toast.LENGTH_LONG).show();
+        } else {
+          Database.getCurrentUser().getShoppingList().addItem(item);
+          Toast.makeText(getContext(), String.format("%s moved to shopping.", item.getName()), Toast.LENGTH_LONG).show();
+        }
         remove(item);
         notifyDataSetChanged();
       }

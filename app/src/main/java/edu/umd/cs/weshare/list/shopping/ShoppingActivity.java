@@ -22,6 +22,7 @@ import edu.umd.cs.weshare.launcher.LauncherActivity;
 import edu.umd.cs.weshare.list.GroceryItemsAdapter;
 import edu.umd.cs.weshare.list.pantry.PantryActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
+import edu.umd.cs.weshare.models.ListType;
 
 ;
 
@@ -46,7 +47,7 @@ public class ShoppingActivity extends AppCompatActivity implements NavigationVie
   private void initVariables() {
     // Shopping List
     ArrayList<GroceryItem> array = Database.getCurrentUser().getShoppingList().getItemsArray();
-    adapter = new GroceryItemsAdapter(this, array);
+    adapter = new GroceryItemsAdapter(this, array, EditShoppingItemActivity.class, ListType.SHOPPING);
     shoppingLV = findViewById(R.id.groceryLV_Shopping);
     shoppingLV.setAdapter(adapter);
     // Drawer

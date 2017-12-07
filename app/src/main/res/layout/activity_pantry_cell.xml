@@ -56,7 +56,7 @@ android:id="@+id/Swipe_Pantry">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
-            android:src="@drawable/ic_fridge_white_24dp"
+            android:src="@drawable/ic_shopping_cart_white_24dp"
             android:paddingTop="5dp"/>
 
         <TextView

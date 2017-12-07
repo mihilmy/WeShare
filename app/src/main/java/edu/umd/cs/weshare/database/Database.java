@@ -97,6 +97,11 @@ public class Database {
       int j = (int) (Math.random() * allItems.size());
       currentUser.getShoppingList().addItem(allItems.get(j));
     }
+
+    for(int i = 0; i < 3; i++) {
+      int j = (int) (Math.random() * allItems.size());
+      currentUser.getPantryList().addItem(allItems.get(j));
+    }
   }
 
 }

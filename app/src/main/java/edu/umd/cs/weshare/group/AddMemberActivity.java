@@ -24,12 +24,9 @@ import edu.umd.cs.weshare.list.pantry.PantryActivity;
 import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.models.User;
 
-public class AddMemberActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AddMemberActivity extends AppCompatActivity {
   private ListView membersLV;
   private UsersAdapter adapter;
-  private DrawerLayout drawer;
-  private ActionBarDrawerToggle drawerToggle;
-  private NavigationView addMemberNV;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +47,11 @@ public class AddMemberActivity extends AppCompatActivity implements NavigationVi
         User user = (User) adapterView.getItemAtPosition(i);
         Database.getCurrentUser().getGroup().addMember(user);
         adapter.remove(user);
-        Toast.makeText(getApplicationContext(),"Success! Member added.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Success! Member added.", Toast.LENGTH_LONG).show();
       }
     });
-
-    // Drawer
-    drawer = findViewById(R.id.Layout_AddMember);
-    drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
-    drawer.addDrawerListener(drawerToggle);
-    drawerToggle.syncState();
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    // Drawer Navigation
-    addMemberNV = findViewById(R.id.AddMemberNV);
-    addMemberNV.setNavigationItemSelectedListener(this);
-    setHeader(addMemberNV);
   }
 
   @Override
@@ -92,33 +80,9 @@ public class AddMemberActivity extends AppCompatActivity implements NavigationVi
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if(drawerToggle.onOptionsItemSelected(item))
-      return true;
-    return super.onOptionsItemSelected(item);
-  }
-
-  @Override
-  public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-    if(item.getItemId() == R.id.ShoppingBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), ShoppingActivity.class));
-    } else if(item.getItemId() == R.id.PantryBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), PantryActivity.class));
-    } else if(item.getItemId() == R.id.GroupBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), GroupActivity.class));
-    } else if(item.getItemId() == R.id.LogoutBTN_Drawer) {
-      Database.clearCurrentUser();
-      startActivity(new Intent(getBaseContext(), LauncherActivity.class));
+    if (item.getItemId() == android.R.id.home) {
+      this.finish();
     }
-
-    drawer.closeDrawers();
-
-    return true;
-  }
-
-  private void setHeader(NavigationView nv) {
-    TextView tvName = nv.getHeaderView(0).findViewById(R.id.nameTV_Header);
-    TextView tvEmail = nv.getHeaderView(0).findViewById(R.id.emailTV_Header);
-    tvName.setText(Database.getCurrentUser().getName());
-    tvEmail.setText(Database.getCurrentUser().getEmail());
+    return super.onOptionsItemSelected(item);
   }
 }

@@ -23,17 +23,13 @@ import edu.umd.cs.weshare.list.pantry.PantryActivity;
 import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
 
-public class EditShoppingItemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class EditShoppingItemActivity extends AppCompatActivity {
   private EditText nameET;
   private EditText quantityET;
   private Button saveBTN;
   private Button deleteBTN;
   private GroceryItem item;
   private int itemIndex;
-
-  private DrawerLayout drawer;
-  private ActionBarDrawerToggle drawerToggle;
-  private NavigationView editItemNV;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +49,8 @@ public class EditShoppingItemActivity extends AppCompatActivity implements Navig
     item = Database.getCurrentUser().getShoppingList().getItemsArray().get(itemIndex);
     saveBTN.setOnClickListener(btnListener);
     deleteBTN.setOnClickListener(btnListener);
-
-    // Drawer
-    drawer = findViewById(R.id.Layout_EditItem);
-    drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
-    drawer.addDrawerListener(drawerToggle);
-    drawerToggle.syncState();
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    // Drawer Navigation
-    editItemNV = findViewById(R.id.EditItemNV);
-    editItemNV.setNavigationItemSelectedListener(this);
-    setHeader(editItemNV);
   }
 
   private void addItemData() {
@@ -98,33 +85,10 @@ public class EditShoppingItemActivity extends AppCompatActivity implements Navig
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if(drawerToggle.onOptionsItemSelected(item))
-      return true;
+    if (item.getItemId() == android.R.id.home) {
+      this.finish();
+    }
     return super.onOptionsItemSelected(item);
   }
 
-  @Override
-  public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-    if(item.getItemId() == R.id.ShoppingBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), ShoppingActivity.class));
-    } else if(item.getItemId() == R.id.PantryBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), PantryActivity.class));
-    } else if(item.getItemId() == R.id.GroupBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), GroupActivity.class));
-    } else if(item.getItemId() == R.id.LogoutBTN_Drawer) {
-      Database.clearCurrentUser();
-      startActivity(new Intent(getBaseContext(), LauncherActivity.class));
-    }
-
-    drawer.closeDrawers();
-
-    return true;
-  }
-
-  private void setHeader(NavigationView nv) {
-    TextView tvName = nv.getHeaderView(0).findViewById(R.id.nameTV_Header);
-    TextView tvEmail = nv.getHeaderView(0).findViewById(R.id.emailTV_Header);
-    tvName.setText(Database.getCurrentUser().getName());
-    tvEmail.setText(Database.getCurrentUser().getEmail());
-  }
 }

@@ -25,12 +25,9 @@ import edu.umd.cs.weshare.list.AddGroceryItemsAdapter;
 import edu.umd.cs.weshare.list.pantry.PantryActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
 
-public class AddShoppingItemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AddShoppingItemActivity extends AppCompatActivity {
   private ListView foodsLV;
   private AddGroceryItemsAdapter adapter;
-  private DrawerLayout drawer;
-  private ActionBarDrawerToggle drawerToggle;
-  private NavigationView addItemNV;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +50,8 @@ public class AddShoppingItemActivity extends AppCompatActivity implements Naviga
         Toast.makeText(getBaseContext(), "Success! Item Added.", Toast.LENGTH_SHORT).show();
       }
     });
-
-    // Drawer
-    drawer = findViewById(R.id.Layout_AddItem);
-    drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
-    drawer.addDrawerListener(drawerToggle);
-    drawerToggle.syncState();
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    // Drawer Navigation
-    addItemNV = findViewById(R.id.AddItemNV);
-    addItemNV.setNavigationItemSelectedListener(this);
-    setHeader(addItemNV);
   }
 
   @Override
@@ -74,7 +62,7 @@ public class AddShoppingItemActivity extends AppCompatActivity implements Naviga
     MenuItem item = menu.findItem(R.id.action_search);
     SearchView searchView = (SearchView) item.getActionView();
     searchView.setIconifiedByDefault(false);
-    searchView.setQueryHint("Search Food");
+    searchView.setQueryHint("Search");
 
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
@@ -91,36 +79,10 @@ public class AddShoppingItemActivity extends AppCompatActivity implements Naviga
 
     return true;
   }
-
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if(drawerToggle.onOptionsItemSelected(item))
-      return true;
+    if(item.getItemId() == android.R.id.home)
+      this.finish();
     return super.onOptionsItemSelected(item);
-  }
-
-  @Override
-  public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-    if(item.getItemId() == R.id.ShoppingBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), ShoppingActivity.class));
-    } else if(item.getItemId() == R.id.PantryBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), PantryActivity.class));
-    } else if(item.getItemId() == R.id.GroupBTN_Drawer) {
-      startActivity(new Intent(getBaseContext(), GroupActivity.class));
-    } else if(item.getItemId() == R.id.LogoutBTN_Drawer) {
-      Database.clearCurrentUser();
-      startActivity(new Intent(getBaseContext(), LauncherActivity.class));
-    }
-
-    drawer.closeDrawers();
-
-    return true;
-  }
-
-  private void setHeader(NavigationView nv) {
-    TextView tvName = nv.getHeaderView(0).findViewById(R.id.nameTV_Header);
-    TextView tvEmail = nv.getHeaderView(0).findViewById(R.id.emailTV_Header);
-    tvName.setText(Database.getCurrentUser().getName());
-    tvEmail.setText(Database.getCurrentUser().getEmail());
   }
 }
