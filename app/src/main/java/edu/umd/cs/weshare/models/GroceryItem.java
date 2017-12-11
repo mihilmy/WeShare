@@ -1,8 +1,13 @@
 package edu.umd.cs.weshare.models;
 
+import org.parceler.Parcel;
+
+import java.io.Serializable;
 import java.util.Locale;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -10,21 +15,24 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Parcel
 public class GroceryItem {
-  private String name;
-  private Category catergory;
-  private int quantity;
+  String name;
+  Category catergory;
+  int quantity;
 
   public GroceryItem(String name, Category catergory) {
     this.name = name;
     this.catergory = catergory;
-    this.quantity = 0;
+    this.quantity = 1;
   }
 
   public GroceryItem(GroceryItem item) {
     this.name = item.name;
     this.catergory = item.catergory;
-    this.quantity = 1;
+    this.quantity = item.quantity;
   }
 
   public void incQuantity() {

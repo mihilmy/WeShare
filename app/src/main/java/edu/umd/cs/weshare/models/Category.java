@@ -1,20 +1,24 @@
 package edu.umd.cs.weshare.models;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by omar on 11/29/17.
  */
 @Getter
-public class Category {
-  private String name;
-  private String color;
-
-  public Category(String name, String color) {
-    this.name = name;
-    this.color= color;
-  }
+@NoArgsConstructor
+@AllArgsConstructor
+@Parcel
+public class Category implements Serializable {
+  String name;
+  String color;
 
   public static Category BREADS = new Category("Breads", "#FFEB3B");
   public static Category GRAINS = new Category("Grains", "#795548");

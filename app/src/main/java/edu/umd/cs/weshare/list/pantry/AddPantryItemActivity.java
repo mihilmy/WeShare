@@ -17,13 +17,17 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.parceler.Parcels;
+
 import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;
 import edu.umd.cs.weshare.group.GroupActivity;
 import edu.umd.cs.weshare.launcher.LauncherActivity;
 import edu.umd.cs.weshare.list.AddGroceryItemsAdapter;
+import edu.umd.cs.weshare.list.AddGroceryItemsDialog;
 import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
+import edu.umd.cs.weshare.models.ListType;
 
 /**
  * Created by elisegreen on 12/6/17.
@@ -50,8 +54,7 @@ public class AddPantryItemActivity extends AppCompatActivity {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         // Add food to their Pantry list
-        Database.getCurrentUser().getPantryList().addItem((GroceryItem) adapterView.getItemAtPosition(i));
-        Toast.makeText(getBaseContext(), "Success! Item Added.", Toast.LENGTH_SHORT).show();
+        showAddItemAlertDialog((GroceryItem) adapterView.getItemAtPosition(i));
       }
     });
     getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -89,6 +92,15 @@ public class AddPantryItemActivity extends AppCompatActivity {
     if (item.getItemId() == android.R.id.home)
       this.finish();
     return super.onOptionsItemSelected(item);
+  }
+
+  private void showAddItemAlertDialog(GroceryItem item) {
+    AddGroceryItemsDialog mDialog = new AddGroceryItemsDialog();
+    Bundle b = new Bundle();
+    b.putParcelable("groceryItem", Parcels.wrap(item));
+    b.putInt("listType", ListType.PANTRY.ordinal());
+    mDialog.setArguments(b);
+    mDialog.show(getSupportFragmentManager(), "Add Item");
   }
 
 }

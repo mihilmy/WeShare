@@ -2,28 +2,35 @@ package edu.umd.cs.weshare.list.shopping;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.parceler.Parcels;
 
 import edu.umd.cs.weshare.R;
 import edu.umd.cs.weshare.database.Database;
 import edu.umd.cs.weshare.group.GroupActivity;
 import edu.umd.cs.weshare.launcher.LauncherActivity;
 import edu.umd.cs.weshare.list.AddGroceryItemsAdapter;
+import edu.umd.cs.weshare.list.AddGroceryItemsDialog;
 import edu.umd.cs.weshare.list.pantry.PantryActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
+import edu.umd.cs.weshare.models.ListType;
 
 public class AddShoppingItemActivity extends AppCompatActivity {
   private ListView foodsLV;
@@ -46,8 +53,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         // Add food to their shopping list
-        Database.getCurrentUser().getShoppingList().addItem((GroceryItem) adapterView.getItemAtPosition(i));
-        Toast.makeText(getBaseContext(), "Success! Item Added.", Toast.LENGTH_SHORT).show();
+        showAddItemAlertDialog((GroceryItem) adapterView.getItemAtPosition(i));
       }
     });
     getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -85,4 +91,14 @@ public class AddShoppingItemActivity extends AppCompatActivity {
       this.finish();
     return super.onOptionsItemSelected(item);
   }
+
+  private void showAddItemAlertDialog(GroceryItem item) {
+    AddGroceryItemsDialog mDialog = new AddGroceryItemsDialog();
+    Bundle b = new Bundle();
+    b.putParcelable("groceryItem", Parcels.wrap(item));
+    b.putInt("listType", ListType.SHOPPING.ordinal());
+    mDialog.setArguments(b);
+    mDialog.show(getSupportFragmentManager(), "Add Item");
+  }
+
 }
