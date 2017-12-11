@@ -27,14 +27,14 @@ public class AddGroceryItemsDialog extends AppCompatDialogFragment {
   private EditText quantityET;
   private GroceryItem groceryItem;
   private ListType listType;
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
     LayoutInflater mInflater = getActivity().getLayoutInflater();
     View mView = mInflater.inflate(R.layout.activity_add_item_dialog, null);
 
-    mBuilder.setView(mView).setTitle("")
-    .setTitle("Set Quantity").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    mBuilder.setView(mView).setTitle("Set Quantity").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialogInterface, int i) {
 

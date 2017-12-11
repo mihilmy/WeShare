@@ -80,7 +80,14 @@ public class EditPantryItemActivity extends AppCompatActivity {//implements Navi
         startActivity(new Intent(getBaseContext(), PantryActivity.class));
       } else if (view.getId() == R.id.editSaveButton) {
         save();
-        startActivity(new Intent(getBaseContext(), PantryActivity.class));
+        Intent i = new Intent(getBaseContext(), PantryActivity.class);
+        if(item.getQuantity() == 0) {
+          i.putExtra("isZero", true);
+          i.putExtra("itemIndex", itemIndex);
+        } else {
+          i.putExtra("isZero", false);
+        }
+        startActivity(i);
       }
     }
   };
@@ -92,4 +99,6 @@ public class EditPantryItemActivity extends AppCompatActivity {//implements Navi
     }
     return super.onOptionsItemSelected(item);
   }
+
+
 }

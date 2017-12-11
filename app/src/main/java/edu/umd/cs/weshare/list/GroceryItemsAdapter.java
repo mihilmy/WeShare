@@ -97,6 +97,10 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
     // Populate the data into the template view using the data object
     tvName.setText(item.getName());
     tvQuantity.setText(String.format("(%d)",item.getQuantity()).toString());
+    if(item.getQuantity() == 0) {
+      tvName.setTextColor(Color.RED);
+      tvQuantity.setTextColor(Color.RED);
+    }
     line.setBackgroundColor(Color.parseColor(item.getCatergory().getColor()));
     // Return the completed view to render on screen
     return convertView;

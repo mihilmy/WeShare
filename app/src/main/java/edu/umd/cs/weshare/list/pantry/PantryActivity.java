@@ -39,6 +39,26 @@ public class PantryActivity extends AppCompatActivity implements NavigationView.
     setContentView(R.layout.activity_pantry);
     setTitle("Pantry List");
     initVariables();
+    showDialogOnZeroQuantity();
+  }
+
+  private void showDialogOnZeroQuantity() {
+    Intent i = getIntent();
+    if(i != null) {
+      boolean isZero = i.getBooleanExtra("isZero",false);
+      if(isZero) {
+        int itemIndex = i.getIntExtra("itemIndex", 0);
+        createZeroQuanitityDialog(itemIndex);
+      }
+    }
+  }
+
+  private void createZeroQuanitityDialog(int itemIndex) {
+    ZeroQuantityDialog mDialog = new ZeroQuantityDialog();
+    Bundle b = new Bundle();
+    b.putInt("itemIndex", itemIndex);
+    mDialog.setArguments(b);
+    mDialog.show(getSupportFragmentManager(), "Confirm Zero Quantity");
   }
 
   private void initVariables() {

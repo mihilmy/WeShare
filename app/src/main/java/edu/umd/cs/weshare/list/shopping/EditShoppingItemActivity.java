@@ -20,6 +20,7 @@ import edu.umd.cs.weshare.database.Database;
 import edu.umd.cs.weshare.group.GroupActivity;
 import edu.umd.cs.weshare.launcher.LauncherActivity;
 import edu.umd.cs.weshare.list.pantry.PantryActivity;
+import edu.umd.cs.weshare.list.pantry.ZeroQuantityDialog;
 import edu.umd.cs.weshare.list.shopping.ShoppingActivity;
 import edu.umd.cs.weshare.models.GroceryItem;
 
@@ -90,5 +91,4 @@ public class EditShoppingItemActivity extends AppCompatActivity {
     }
     return super.onOptionsItemSelected(item);
   }
-
 }
