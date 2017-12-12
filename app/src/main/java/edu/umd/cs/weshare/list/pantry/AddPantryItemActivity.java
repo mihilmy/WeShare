@@ -46,7 +46,7 @@ public class AddPantryItemActivity extends AppCompatActivity {
   }
 
   private void initVariables() {
-    adapter = new AddGroceryItemsAdapter(this, Database.getAllItems(), R.layout.activity_add_item_cell, R.id.foodTV_AddCell);
+    adapter = new AddGroceryItemsAdapter(this, Database.getAllItems(), R.layout.activity_add_item_cell, R.id.foodTV_AddCell, ListType.PANTRY);
     foodsLV = (ListView) findViewById(R.id.foodLV_AddFood);
     foodsLV.setAdapter(adapter);
     foodsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
