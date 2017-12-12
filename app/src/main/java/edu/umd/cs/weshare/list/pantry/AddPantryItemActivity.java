@@ -33,7 +33,7 @@ import edu.umd.cs.weshare.models.ListType;
  * Created by elisegreen on 12/6/17.
  */
 
-public class AddPantryItemActivity extends AppCompatActivity {
+public class AddPantryItemActivity extends AppCompatActivity implements AddGroceryItemsDialog.Listener{
   private ListView foodsLV;
   private AddGroceryItemsAdapter adapter;
 
@@ -103,4 +103,8 @@ public class AddPantryItemActivity extends AppCompatActivity {
     mDialog.show(getSupportFragmentManager(), "Add Item");
   }
 
+  @Override
+  public void updateListView() {
+    adapter.notifyDataSetChanged();
+  }
 }

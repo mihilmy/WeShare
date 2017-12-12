@@ -1,6 +1,7 @@
 package edu.umd.cs.weshare.list;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +28,7 @@ public class AddGroceryItemsDialog extends AppCompatDialogFragment {
   private EditText quantityET;
   private GroceryItem groceryItem;
   private ListType listType;
+  private Listener listener;
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class AddGroceryItemsDialog extends AppCompatDialogFragment {
         else
           Database.getCurrentUser().getPantryList().addItem(newItem);
         Toast.makeText(getContext(), "Success! Item Added.", Toast.LENGTH_SHORT).show();
+        listener.updateListView();
       }
     });
 
@@ -59,6 +62,25 @@ public class AddGroceryItemsDialog extends AppCompatDialogFragment {
     Log.d("ITEM", String.format("%b\n", groceryItem == null));
     return mBuilder.create();
   }
+
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+
+    try {
+      listener =  (Listener) context;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(context.toString() + " must implement listener");
+    }
+
+  }
+
+  public interface Listener {
+    void updateListView();
+  }
+
+
+
 
 
 }
