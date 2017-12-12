@@ -59,7 +59,7 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
       quantityID = R.id.quantityTV_PantryCell;
       categoryID = R.id.categoryLine_PantryCell;
       editID = R.id.editBTN_PantryCell;
-      moveID = R.id.moveBTN_PantryCell;
+      moveID = -1;
     }
 
 
@@ -68,7 +68,25 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
     TextView tvQuantity = convertView.findViewById(quantityID);
     View line = convertView.findViewById(categoryID);
     LinearLayout edit = convertView.findViewById(editID);
-    LinearLayout move = convertView.findViewById(moveID);
+    LinearLayout move;
+    if (moveID != -1) {
+      move = convertView.findViewById(moveID);
+
+      move.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          if (listType == ListType.SHOPPING) {
+            Database.getCurrentUser().getPantryList().addItem(item);
+            Toast.makeText(getContext(), String.format("%s moved to pantry.", item.getName()), Toast.LENGTH_LONG).show();
+          } else {
+            Database.getCurrentUser().getShoppingList().addItem(item);
+            Toast.makeText(getContext(), String.format("%s moved to shopping.", item.getName()), Toast.LENGTH_LONG).show();
+          }
+          remove(item);
+          notifyDataSetChanged();
+        }
+      });
+    }
 
     edit.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -79,20 +97,8 @@ public class GroceryItemsAdapter extends ArraySwipeAdapter<GroceryItem> {
       }
     });
 
-    move.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        if(listType == ListType.SHOPPING) {
-          Database.getCurrentUser().getPantryList().addItem(item);
-          Toast.makeText(getContext(), String.format("%s moved to pantry.", item.getName()), Toast.LENGTH_LONG).show();
-        } else {
-          Database.getCurrentUser().getShoppingList().addItem(item);
-          Toast.makeText(getContext(), String.format("%s moved to shopping.", item.getName()), Toast.LENGTH_LONG).show();
-        }
-        remove(item);
-        notifyDataSetChanged();
-      }
-    });
+
+
 
     // Populate the data into the template view using the data object
     tvName.setText(item.getName());
